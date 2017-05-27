@@ -82,4 +82,24 @@
 		    }
 		}
 	}
+
+	$related_pres_query = "SELECT * FROM products_presentations AS pp "
+						. "INNER JOIN presentations AS p ON pp.presentation_id = p.presentation_id "
+						. "WHERE pp.product_id = " . $_GET["prod_id"];
+
+	if (!mysqli_query($conn, $related_pres_query)) {
+		echo $related_pres_query . "---" . mysqli_error($conn);
+	}
+	else {
+		$res = mysqli_query($conn, $related_pres_query);
+		if (mysqli_num_rows($res) > 0) {
+			while ($row = mysqli_fetch_assoc($res)) {
+				$arr_res = explode("/", $row["presentation_link"]);
+				$pres_name = $arr_res[sizeof($arr_res) - 1];
+				echo "<a href='display_presentation.php?pres_link=" . $row["presentation_link"] . "'>" 
+					 . substr($pres_name, 0, strlen($pres_name) - 4) 
+					 . "</a>" . "<br>";
+			}
+		}
+	}
 ?>

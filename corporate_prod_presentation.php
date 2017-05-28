@@ -2,6 +2,7 @@
 	require_once "helper/formvalidator.php";
 	require_once "helper/db_connection.php";
 	require_once "helper/helper_functions.php";
+	session_start();
 ?>
 
 	<form action=<?php echo "corporate_prod_presentation.php?prod_id=" . $_GET['prod_id'] ?> method="post" enctype="multipart/form-data">
@@ -65,7 +66,7 @@
 											 . ", " . $pres_id . ")";
 							// if conditional is left to execute the query
 							if (mysqli_query($conn, $prod_pres_query)) {
-								//echo "INSERTED";
+								redirect("presentation_questions.php?pres_id=" . $pres_id, false);
 							}
 						}
 						else {
